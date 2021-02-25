@@ -1,8 +1,0 @@
-com/example/fyp10_2/BuildConfig.java
- com.example.fyp10_2.BuildConfig
-com/example/fyp10_2/MainActivity.java
- com.example.fyp10_2.MainActivity
- com.example.fyp10_2.MainActivity$1
- com.example.fyp10_2.MainActivity$2
- com.example.fyp10_2.MainActivity$3
- com.example.fyp10_2.MainActivity$4
