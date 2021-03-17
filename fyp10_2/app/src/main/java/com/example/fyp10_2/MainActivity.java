@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.CookieHandler;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -133,7 +134,40 @@ public class MainActivity extends AppCompatActivity {
 //        intent.setType("image/*");
 //        startActivityForResult(intent, 3);
 //    }
-
+    private int[] getBackgroundColor(Bitmap bitmap){
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int r,g,b;
+        int maxR = 0,maxG = 0,maxB = 0;
+        int[] red = new int[16];
+        int[] blue = new int[16];
+        int[] green = new int[16];
+        //获取背景颜色
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int color = bitmap.getPixel(j,i);
+                r = Color.red(color);
+                g = Color.green(color);
+                b = Color.blue(color);
+                red[r / 16]++;
+                blue[g / 16]++;
+                green[b / 16]++;
+            }
+        }
+        //取最大值
+        for (int i = 0; i < 16; i++) {
+            if (red[i] > maxR){
+                maxR = i;
+            }
+            if (green[i] > maxG){
+                maxG = i;
+            }
+            if(blue[i] > maxB){
+                maxB = i;
+            }
+        }
+        return new int[]{maxR*16,maxG*16,maxB*16};
+    }
 
     private void handleImage(Intent data) {
         String imagePath = null;
@@ -278,7 +312,8 @@ public class MainActivity extends AppCompatActivity {
                 int g = Color.green(color);
                 int b = Color.blue(color);
                 if (b - r > 20 && b - g > 20) {
-                    mBitmap.setPixel(j, i, (int) (newColor));
+                    int[] c = getBackgroundColor(mBitmap);
+                    mBitmap.setPixel(j, i, Color.argb(255,c[0],c[1],c[2]));
                 }
             }
         }
@@ -295,8 +330,9 @@ public class MainActivity extends AppCompatActivity {
                 int r = Color.red(color);
                 int g = Color.green(color);
                 int b = Color.blue(color);
-                if (r - b > 40 && r - g > 40) {
-                    mBitmap.setPixel(j, i, (int) (newColor));
+                if (r - b > 35 && r - g > 35) {
+                    int[] c = getBackgroundColor(mBitmap);
+                    mBitmap.setPixel(j, i,  Color.argb(255,c[0],c[1],c[2]));
                 }
             }
         }
