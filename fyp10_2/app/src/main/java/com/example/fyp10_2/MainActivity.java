@@ -135,10 +135,11 @@ public class MainActivity extends AppCompatActivity {
 //        startActivityForResult(intent, 3);
 //    }
     private int[] getBackgroundColor(Bitmap bitmap){
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int r,g,b;
+        Bitmap mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        int width = mBitmap.getWidth();
+        int height = mBitmap.getHeight();
         int maxR = 0,maxG = 0,maxB = 0;
+        int r,g,b;
         int[] red = new int[16];
         int[] blue = new int[16];
         int[] green = new int[16];
@@ -305,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
+        int[] c = getBackgroundColor(mBitmap);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int color = mBitmap.getPixel(j, i);
@@ -312,9 +314,12 @@ public class MainActivity extends AppCompatActivity {
                 int g = Color.green(color);
                 int b = Color.blue(color);
                 if (b - r > 20 && b - g > 20) {
-                    int[] c = getBackgroundColor(mBitmap);
-                    mBitmap.setPixel(j, i, Color.argb(255,c[0],c[1],c[2]));
+                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
                 }
+                //安卓模拟器测试用代码
+//                if (g - r > 20 && g - b > 20) {//清除绿色
+//                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
+//                }
             }
         }
         return mBitmap;
@@ -332,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                 int b = Color.blue(color);
                 if (r - b > 35 && r - g > 35) {
                     int[] c = getBackgroundColor(mBitmap);
-                    mBitmap.setPixel(j, i,  Color.argb(255,c[0],c[1],c[2]));
+                    mBitmap.setPixel(j, i,  Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
                 }
             }
         }
