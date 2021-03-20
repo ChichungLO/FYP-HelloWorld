@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 int r = Color.red(color);
                 int g = Color.green(color);
                 int b = Color.blue(color);
-                if (b - r > 30 && b - g > 30) {
+                if (b - r > 25 && b - g > 25) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
                 }
                 //安卓模拟器测试用代码
