@@ -156,14 +156,14 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         //取最大值
-        for (int i = 0; i < 16; i++) {
-            if (red[i] > maxR){
+        for (int i = 1; i < 16; i++) {
+            if (red[i] > red[maxR]){
                 maxR = i;
             }
-            if (green[i] > maxG){
+            if (green[i] > green[maxG]){
                 maxG = i;
             }
-            if(blue[i] > maxB){
+            if(blue[i] > blue[maxB]){
                 maxB = i;
             }
         }
@@ -313,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
                 int r = Color.red(color);
                 int g = Color.green(color);
                 int b = Color.blue(color);
-                if (b - r > 20 && b - g > 20) {
+                if (b - r > 30 && b - g > 30) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
                 }
                 //安卓模拟器测试用代码
@@ -329,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
         Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
+        int[] c = getBackgroundColor(mBitmap);
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int color = mBitmap.getPixel(j, i);
@@ -336,7 +337,6 @@ public class MainActivity extends AppCompatActivity {
                 int g = Color.green(color);
                 int b = Color.blue(color);
                 if (r - b > 35 && r - g > 35) {
-                    int[] c = getBackgroundColor(mBitmap);
                     mBitmap.setPixel(j, i,  Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
                 }
             }
