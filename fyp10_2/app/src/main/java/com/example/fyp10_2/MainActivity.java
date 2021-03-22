@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.net.CookieHandler;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -181,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         //取最大值
-        for (int i = 1; i < 16; i++) {
+        for (int i = 0; i < 16; i++) {
             if (red[i] > red[maxR]){
                 maxR = i;
             }
@@ -355,17 +356,18 @@ public class MainActivity extends AppCompatActivity {
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
         int[] c = getBackgroundColor(mBitmap);
-        float r,g,b;
-        DecimalFormat df = new DecimalFormat("0.00");
+        System.out.println(c[0]+" "+c[1]+ " "+c[2]);
+        double r,g,b;
+        Random rand = new Random();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int color = mBitmap.getPixel(j, i);
                 r = Color.red(color);
                 g = Color.green(color);
                 b = Color.blue(color);
-                int ratio = Integer.parseInt(df.format((b/(r+g+b))*100));
+                double ratio = (b/(r+g+b)) * 100;
                 if (ratio > 60) {
-                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
+                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }
         }
