@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.CookieHandler;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     Button btn2; //从相册中选择
     Button btn3; //清除手写内容
     Button btn4; //清除手写内容
+    Button btn5; //清除手写内容
+    Button btn6; //清除手写内容
     Uri uri; //显示拍的图片
 
     @Override
@@ -56,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
         btn2 = findViewById(R.id.btn2);
         btn3 = findViewById(R.id.btn3);
         btn4 = findViewById(R.id.btn4);
+        btn5 = findViewById(R.id.btn5);
+        btn6 = findViewById(R.id.btn6);
 
         //点击拍照
         btn.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +124,26 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
                 //imageView.setImageBitmap(bm);
                 Bitmap newBitmap = clearRed(bm, Color.argb(255,255,255,255));
+                imageView.setImageDrawable(null);
+                imageView.setImageBitmap(newBitmap);
+            }
+        });
+        btn5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
+                //imageView.setImageBitmap(bm);
+                Bitmap newBitmap = clearBlue2(bm, Color.argb(255,255,255,255));
+                imageView.setImageDrawable(null);
+                imageView.setImageBitmap(newBitmap);
+            }
+        });
+        btn6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
+                //imageView.setImageBitmap(bm);
+                Bitmap newBitmap = clearRed2(bm, Color.argb(255,255,255,255));
                 imageView.setImageDrawable(null);
                 imageView.setImageBitmap(newBitmap);
             }
@@ -313,13 +338,35 @@ public class MainActivity extends AppCompatActivity {
                 int r = Color.red(color);
                 int g = Color.green(color);
                 int b = Color.blue(color);
-                if (b - r > 25 && b - g > 25) {
+                if (b - r > 20 && b - g > 20) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
                 }
                 //安卓模拟器测试用代码
 //                if (g - r > 20 && g - b > 20) {//清除绿色
 //                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
 //                }
+            }
+        }
+        return mBitmap;
+    }
+
+    public Bitmap clearBlue2(Bitmap oldBitmap,int newColor) {
+        Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        int width = mBitmap.getWidth();
+        int height = mBitmap.getHeight();
+        int[] c = getBackgroundColor(mBitmap);
+        float r,g,b;
+        DecimalFormat df = new DecimalFormat("0.00");
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int color = mBitmap.getPixel(j, i);
+                r = Color.red(color);
+                g = Color.green(color);
+                b = Color.blue(color);
+                int ratio = Integer.parseInt(df.format((b/(r+g+b))*100));
+                if (ratio > 60) {
+                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
+                }
             }
         }
         return mBitmap;
@@ -336,8 +383,30 @@ public class MainActivity extends AppCompatActivity {
                 int r = Color.red(color);
                 int g = Color.green(color);
                 int b = Color.blue(color);
-                if (r - b > 35 && r - g > 35) {
+                if (r - b > 30 && r - g > 30) {
                     mBitmap.setPixel(j, i,  Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
+                }
+            }
+        }
+        return mBitmap;
+    }
+
+    public Bitmap clearRed2(Bitmap oldBitmap,int newColor) {
+        Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        int width = mBitmap.getWidth();
+        int height = mBitmap.getHeight();
+        int[] c = getBackgroundColor(mBitmap);
+        float r,g,b;
+        DecimalFormat df = new DecimalFormat("0.00");
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                int color = mBitmap.getPixel(j, i);
+                r = Color.red(color);
+                g = Color.green(color);
+                b = Color.blue(color);
+                int ratio = Integer.parseInt(df.format((r/(r+g+b))*100));
+                if (ratio > 60) {
+                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
                 }
             }
         }

@@ -39,14 +39,26 @@
         android:id="@+id/btn3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear blue pens"
+        android:text="Clear blue pens(Algorithm1)"
+        android:textColor="#FFEB3B" />
+    <Button
+        android:id="@+id/btn5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear blue pens(Algorithm2)"
         android:textColor="#FFEB3B" />
 
     <Button
         android:id="@+id/btn4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear red pens"
+        android:text="Clear red pens(Algorithm1)"
+        android:textColor="#FFEB3B" />
+    <Button
+        android:id="@+id/btn6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear red pens(Algorithm2)"
         android:textColor="#FFEB3B" />
 
 
