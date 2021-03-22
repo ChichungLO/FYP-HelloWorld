@@ -365,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
                 r = Color.red(color);
                 g = Color.green(color);
                 b = Color.blue(color);
-                double ratio = (b/(r+g+b)) * 100;
+                double ratio = (g/(r+g+b)) * 100;
                 if (ratio > 60) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
@@ -398,15 +398,14 @@ public class MainActivity extends AppCompatActivity {
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
         int[] c = getBackgroundColor(mBitmap);
-        float r,g,b;
-        DecimalFormat df = new DecimalFormat("0.00");
+        double r,g,b;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int color = mBitmap.getPixel(j, i);
                 r = Color.red(color);
                 g = Color.green(color);
                 b = Color.blue(color);
-                int ratio = Integer.parseInt(df.format((r/(r+g+b))*100));
+                double ratio = (r/(r+g+b))*100;
                 if (ratio > 60) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
                 }
