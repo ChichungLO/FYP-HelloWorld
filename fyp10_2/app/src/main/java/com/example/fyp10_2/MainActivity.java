@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                 int r = Color.red(color);
                 int g = Color.green(color);
                 int b = Color.blue(color);
-                if (b - r > 20 && b - g > 20) {
+                if (b - r > 10 && b - g > 10) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
                 //安卓模拟器测试用代码
@@ -367,7 +367,7 @@ public class MainActivity extends AppCompatActivity {
                 g = Color.green(color);
                 b = Color.blue(color);
                 double ratio = (b/(r+g+b)) * 100;
-                if (ratio > 60) {
+                if (ratio > 50) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }
