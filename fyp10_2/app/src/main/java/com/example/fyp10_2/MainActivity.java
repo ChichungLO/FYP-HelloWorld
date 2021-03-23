@@ -177,8 +177,8 @@ public class MainActivity extends AppCompatActivity {
                 g = Color.green(color);
                 b = Color.blue(color);
                 red[r / 16]++;
-                blue[g / 16]++;
-                green[b / 16]++;
+                blue[b / 16]++;
+                green[g / 16]++;
             }
         }
         //取最大值
