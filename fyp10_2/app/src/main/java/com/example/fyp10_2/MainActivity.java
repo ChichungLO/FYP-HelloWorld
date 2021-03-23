@@ -333,6 +333,7 @@ public class MainActivity extends AppCompatActivity {
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
         int[] c = getBackgroundColor(mBitmap);
+        Random rand = new Random();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int color = mBitmap.getPixel(j, i);
@@ -340,7 +341,7 @@ public class MainActivity extends AppCompatActivity {
                 int g = Color.green(color);
                 int b = Color.blue(color);
                 if (b - r > 20 && b - g > 20) {
-                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
+                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
                 //安卓模拟器测试用代码
 //                if (g - r > 20 && g - b > 20) {//清除绿色
@@ -365,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
                 r = Color.red(color);
                 g = Color.green(color);
                 b = Color.blue(color);
-                double ratio = (g/(r+g+b)) * 100;
+                double ratio = (b/(r+g+b)) * 100;
                 if (ratio > 60) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
@@ -379,6 +380,8 @@ public class MainActivity extends AppCompatActivity {
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
         int[] c = getBackgroundColor(mBitmap);
+        Random rand = new Random();
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 int color = mBitmap.getPixel(j, i);
@@ -386,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
                 int g = Color.green(color);
                 int b = Color.blue(color);
                 if (r - b > 30 && r - g > 30) {
-                    mBitmap.setPixel(j, i,  Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
+                    mBitmap.setPixel(j, i,  Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }
         }
@@ -398,6 +401,7 @@ public class MainActivity extends AppCompatActivity {
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
         int[] c = getBackgroundColor(mBitmap);
+        Random rand = new Random();
         double r,g,b;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -407,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
                 b = Color.blue(color);
                 double ratio = (r/(r+g+b))*100;
                 if (ratio > 60) {
-                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+8,c[1]+8,c[2]+8));
+                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }
         }
