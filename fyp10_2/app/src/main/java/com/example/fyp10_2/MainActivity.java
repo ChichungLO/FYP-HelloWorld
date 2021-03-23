@@ -410,7 +410,7 @@ public class MainActivity extends AppCompatActivity {
                 g = Color.green(color);
                 b = Color.blue(color);
                 double ratio = (r/(r+g+b))*100;
-                if (ratio > 60) {
+                if (ratio > 50) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }
