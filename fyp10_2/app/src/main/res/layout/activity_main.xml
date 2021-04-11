@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:text="Take photo"
+            android:text="@string/takePhoto"
             android:textColor="#FFEB3B" />
 
         <Button
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
-            android:text="Select from album"
+            android:text="@string/SelectFromAlbum"
             android:textColor="#FFEB3B" />
 
     </LinearLayout>
@@ -39,26 +39,26 @@
         android:id="@+id/btn3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear blue pens(Algorithm1)"
+        android:text="@string/clearBlue1"
         android:textColor="#FFEB3B" />
     <Button
         android:id="@+id/btn5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear blue pens(Algorithm2)"
+        android:text="@string/clearBlue2"
         android:textColor="#FFEB3B" />
 
     <Button
         android:id="@+id/btn4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear red pens(Algorithm1)"
+        android:text="@string/clearRed1"
         android:textColor="#FFEB3B" />
     <Button
         android:id="@+id/btn6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Clear red pens(Algorithm2)"
+        android:text="@string/clearRed1"
         android:textColor="#FFEB3B" />
 
 

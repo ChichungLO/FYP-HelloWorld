@@ -1,10 +1,13 @@
 package com.example.fyp10_2;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +18,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,8 +39,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.CookieHandler;
+import java.net.Inet4Address;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -150,6 +159,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    //语言切换菜单
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Add code here
+        // Task 4: Create the menu by overriding the "onCreateOptionMenu" method
+
+        // Inflating the menu resource "app_menu"
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.app_menu, menu);
+
+        return true;
+    }
+    //语言切换代码
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Resources resources = getResources();
+        Configuration config = resources.getConfiguration();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        switch (item.getItemId()) {
+            case R.id.Chinese:
+                config.setLocale(Locale.SIMPLIFIED_CHINESE);
+                break;
+            case R.id.English:
+                config.setLocale(Locale.ENGLISH);
+                break;
+        }
+        resources.updateConfiguration(config,dm);
+        finish();
+        Intent intent = new Intent(MainActivity.this,MainActivity.class);
+        startActivity(intent);
+        return false;
     }
 
 //    /**

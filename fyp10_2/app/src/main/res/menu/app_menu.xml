@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+  <!--
+        Defined all the required menu items and sub menu items here
+    -->
+    <item
+        android:id="@+id/Chinese"
+        android:title="@string/Chinese" />
+
+    <item
+        android:id="@+id/English"
+        android:title="@string/English">
+    </item>
+
+
+
+</menu>

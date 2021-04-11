@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">fyp10_2</string>
+    <string name="takePhoto">拍照</string>
+    <string name="SelectFromAlbum">從相冊選擇照片</string>
+    <string name="clearBlue1">清除藍筆(算法1)</string>
+    <string name="clearBlue2">清除藍筆(算法2)</string>
+    <string name="clearRed1">清除紅筆(算法1)</string>
+    <string name="clearRed2">清除紅筆(算法2)</string>
+    <string name="Chinese">中文</string>
+    <string name="English">英语</string>
+</resources>
