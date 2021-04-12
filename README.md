@@ -2,23 +2,7 @@
 OUHK2020 Computing Final Year Project - Hello World Team 
 
 # 仓库架构
-### 基于安卓10.0之前
-
-以下项目仅用于初步测试使用，现已停止维护与更新。
-
-【ImagetoPDF】
-
-用于测试将图片转换到PDF的一个测试项目。
-
-【ImgSelecter】
-
-用于测试从相册选择图片并展示在ImageView上的一个测试项目。
-
-【ExportPdf】：
-
-整合了【ImagetoPDF】和【ImgSelecter】，初步实现了拍照、从相册读取图片和导出PDF的功能。导出PDF功能目前只在模拟器上成功运行，真机无法通过测试。
-
-### 基于安卓10.0以后
+### 基于安卓10.0/API29开发的项目
 
 以下项目都将用于 Final Year Project 的正式开发中，目前采用功能分块的开发模式。即一个功能单独为一个项目，便于各开发人员单独调试与测试。后续会进行整合。
 
@@ -35,4 +19,8 @@ OUHK2020 Computing Final Year Project - Hello World Team
 【PDFExport】
 
 用于开发，将处理后的图像导出为PDF格式以便于打印和分享之功能。**对应 Onjective 6**
+
+【iText】
+
+以【PDFExport】为模板，进行的二次开发，实现PDF导出功能。**对应 Onjective 6**
 
