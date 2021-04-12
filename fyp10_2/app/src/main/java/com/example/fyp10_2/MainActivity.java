@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 int r = Color.red(color);
                 int g = Color.green(color);
                 int b = Color.blue(color);
-                if (b - r > 5 && b - g > 5) {
+                if (b - r > 4 && b - g > 4) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
                 //安卓模拟器测试用代码
@@ -432,7 +432,7 @@ public class MainActivity extends AppCompatActivity {
                 int r = Color.red(color);
                 int g = Color.green(color);
                 int b = Color.blue(color);
-                if (r - b > 10 && r - g > 10) {
+                if (r - b > 5 && r - g > 5) {
                     mBitmap.setPixel(j, i,  Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }
