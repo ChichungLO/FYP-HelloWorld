@@ -6,6 +6,7 @@
     <string name="clearBlue2">Clear blue pens(Algorithm2)</string>
     <string name="clearRed1">Clear red pens(Algorithm1)</string>
     <string name="clearRed2">Clear red pens(Algorithm2)</string>
-    <string name="Chinese">Chinese</string>
+    <string name="SimplifiedChinese">Simplified Chinese</string>
     <string name="English">English</string>
+    <string name="TraditionalChinese">Traditional Chinese</string>
 </resources>

@@ -179,8 +179,11 @@ public class MainActivity extends AppCompatActivity {
         Configuration config = resources.getConfiguration();
         DisplayMetrics dm = resources.getDisplayMetrics();
         switch (item.getItemId()) {
-            case R.id.Chinese:
+            case R.id.SimplifiedChinese:
                 config.setLocale(Locale.SIMPLIFIED_CHINESE);
+                break;
+            case R.id.TraditionalChinese:
+                config.setLocale(Locale.TRADITIONAL_CHINESE);
                 break;
             case R.id.English:
                 config.setLocale(Locale.ENGLISH);

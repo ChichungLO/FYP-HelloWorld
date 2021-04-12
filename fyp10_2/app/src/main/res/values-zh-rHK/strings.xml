@@ -7,6 +7,7 @@
     <string name="clearBlue2">清除藍筆(算法2)</string>
     <string name="clearRed1">清除紅筆(算法1)</string>
     <string name="clearRed2">清除紅筆(算法2)</string>
-    <string name="Chinese">中文</string>
+    <string name="SimplifiedChinese">簡體中文</string>
     <string name="English">英语</string>
+    <string name="TraditionalChinese">繁體中文</string>
 </resources>
