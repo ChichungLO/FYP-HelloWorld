@@ -100,7 +100,8 @@ public class MainActivity extends AppCompatActivity {
                 float width = image.getWidth();
                 int percent = getPercent2(height, width);
                 image.setAlignment(Image.MIDDLE);
-                image.scalePercent(percent+3); //表示是原来图像的比例
+                image.scalePercent(percent);
+                image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
                 pdf.add(image);
             }
         }catch (FileNotFoundException e){
