@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn5; //清除手写内容
     Button btn6; //清除手写内容
     Uri uri; //显示拍的图片
-
+//ok
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
