@@ -2,6 +2,7 @@ package com.example.fyp10_2;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.ClipData;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn4; //清除手写内容
     Button btn5; //清除手写内容
     Uri uri; //显示拍的图片
-//ok
+    Uri uri2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,14 +94,19 @@ public class MainActivity extends AppCompatActivity {
                 //判断安卓系统版本
                 if (Build.VERSION.SDK_INT >= 24) {
                     //将File对象转换成一个封装过的Uri对象,接收3个参数，第一个是上下文，第二个是任意唯一字符串，第三个File对象
+                    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                    StrictMode.setVmPolicy(builder.build());
                     uri = FileProvider.getUriForFile(context, "com.example.fyp10_2.fileprovider", file);
+                    uri2 = Uri.fromFile(file);
                 } else {
                     uri = Uri.fromFile(file);
                 }
                 //启动相机
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 //指定图片的输出地址
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri2);
                 startActivityForResult(intent, 1);
             }
         });
@@ -310,13 +317,15 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case 1:
                 if (resultCode == RESULT_OK) {
-                    try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-                        Bitmap bitmap1 = replaceBitmapColor(bitmap, Color.argb(255,0,50,0),Color.argb(255,255,255,255));
-                        imageView.setImageBitmap(bitmap);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
+                    crop(uri2);
+                }
+                break;
+            case 2:
+                if (data != null) {
+                    // 得到图片的全路径
+                    Uri uri = data.getData();
+                    crop(uri);
+                    //imageView.setImageURI(uri);
                 }
                 break;
             case 3:
@@ -328,15 +337,32 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case 2:
-                if (data != null) {
-                    // 得到图片的全路径
-                    Uri uri = data.getData();
-                    imageView.setImageURI(uri);
-                }
+            case 4:
+                imageView.setImageURI(data.getData());
+                break;
         }
-
-
+    }
+    private void crop(Uri uri) {
+        // 裁剪图片意图
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra("scale", true);
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        // 裁剪框的比例，1：1
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        // 裁剪后输出图片的尺寸大小
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
+        intent.putExtra("noFaceDetection", true);// 取消人脸识别
+        intent.putExtra("return-data", true);
+        // 开启一个带有返回值的Activity，请求码为4
+        Uri cropUri = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,cropUri);
+        startActivityForResult(intent, 4);
     }
 
 
