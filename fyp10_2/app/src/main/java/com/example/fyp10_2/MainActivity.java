@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
                 r = Color.red(color);
                 g = Color.green(color);
                 b = Color.blue(color);
-                if (Math.abs(r - g) < 3 && Math.abs(g - b) < 3 && Math.abs(r - b) < 3 && r < 220 && g < 200 && b < 220) {
+                if (Math.abs(r - g) < 3 && Math.abs(g - b) < 3 && Math.abs(r - b) < 3 && r < 210 && g < 210 && b < 210 && r > 70 && g >70 && b > 70) {
                     mBitmap.setPixel(j, i,  Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }
