@@ -2,10 +2,9 @@
     <string name="app_name">fyp10_2</string>
     <string name="takePhoto">Take Photo</string>
     <string name="SelectFromAlbum">Select from album</string>
-    <string name="clearBlue1">Clear blue pens(Algorithm1)</string>
-    <string name="clearBlue2">Clear blue pens(Algorithm2)</string>
-    <string name="clearRed1">Clear red pens(Algorithm1)</string>
-    <string name="clearRed2">Clear red pens(Algorithm2)</string>
+    <string name="clearBlue">Clear blue pens</string>
+    <string name="clearRed">Clear red pens</string>
+    <string name="clearPencil">Clear pencil</string>
     <string name="SimplifiedChinese">Simplified Chinese</string>
     <string name="English">English</string>
     <string name="TraditionalChinese">Traditional Chinese</string>

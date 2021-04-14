@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     Button btn3; //清除手写内容
     Button btn4; //清除手写内容
     Button btn5; //清除手写内容
-    Button btn6; //清除手写内容
     Uri uri; //显示拍的图片
 //ok
     @Override
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         btn3 = findViewById(R.id.btn3);
         btn4 = findViewById(R.id.btn4);
         btn5 = findViewById(R.id.btn5);
-        btn6 = findViewById(R.id.btn6);
 
         //点击拍照
         btn.setOnClickListener(new View.OnClickListener() {
@@ -138,22 +136,13 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setImageBitmap(newBitmap);
             }
         });
+
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
                 //imageView.setImageBitmap(bm);
-                Bitmap newBitmap = clearBlue2(bm, Color.argb(255,255,255,255));
-                imageView.setImageDrawable(null);
-                imageView.setImageBitmap(newBitmap);
-            }
-        });
-        btn6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
-                //imageView.setImageBitmap(bm);
-                Bitmap newBitmap = clearRed2(bm, Color.argb(255,255,255,255));
+                Bitmap newBitmap = clearPencil(bm, Color.argb(255,255,255,255));
                 imageView.setImageDrawable(null);
                 imageView.setImageBitmap(newBitmap);
             }
@@ -163,15 +152,11 @@ public class MainActivity extends AppCompatActivity {
     //语言切换菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Add code here
-        // Task 4: Create the menu by overriding the "onCreateOptionMenu" method
-
-        // Inflating the menu resource "app_menu"
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.app_menu, menu);
-
         return true;
     }
+
     //语言切换代码
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -378,12 +363,16 @@ public class MainActivity extends AppCompatActivity {
         int height = mBitmap.getHeight();
         int[] c = getBackgroundColor(mBitmap);
         Random rand = new Random();
+        int r;
+        int g;
+        int b;
+        int color;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                int color = mBitmap.getPixel(j, i);
-                int r = Color.red(color);
-                int g = Color.green(color);
-                int b = Color.blue(color);
+                color = mBitmap.getPixel(j, i);
+                r = Color.red(color);
+                g = Color.green(color);
+                b = Color.blue(color);
                 if (b - r > 4 && b - g > 4) {
                     mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
@@ -396,42 +385,22 @@ public class MainActivity extends AppCompatActivity {
         return mBitmap;
     }
 
-    public Bitmap clearBlue2(Bitmap oldBitmap,int newColor) {
-        Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        int[] c = getBackgroundColor(mBitmap);
-        System.out.println(c[0]+" "+c[1]+ " "+c[2]);
-        double r,g,b;
-        Random rand = new Random();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int color = mBitmap.getPixel(j, i);
-                r = Color.red(color);
-                g = Color.green(color);
-                b = Color.blue(color);
-                double ratio = (b/(r+g+b)) * 100;
-                if (ratio > 40) {
-                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
-                }
-            }
-        }
-        return mBitmap;
-    }
-
     public Bitmap clearRed(Bitmap oldBitmap,int newColor) {
         Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
         int[] c = getBackgroundColor(mBitmap);
         Random rand = new Random();
-
+        int r;
+        int g;
+        int b;
+        int color;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                int color = mBitmap.getPixel(j, i);
-                int r = Color.red(color);
-                int g = Color.green(color);
-                int b = Color.blue(color);
+                color = mBitmap.getPixel(j, i);
+                r = Color.red(color);
+                g = Color.green(color);
+                b = Color.blue(color);
                 if (r - b > 5 && r - g > 5) {
                     mBitmap.setPixel(j, i,  Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
@@ -440,30 +409,27 @@ public class MainActivity extends AppCompatActivity {
         return mBitmap;
     }
 
-    public Bitmap clearRed2(Bitmap oldBitmap,int newColor) {
+    public Bitmap clearPencil(Bitmap oldBitmap,int newColor) {
         Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
         int[] c = getBackgroundColor(mBitmap);
         Random rand = new Random();
-        double r,g,b;
+        int r;
+        int g;
+        int b;
+        int color;
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                int color = mBitmap.getPixel(j, i);
+                color = mBitmap.getPixel(j, i);
                 r = Color.red(color);
                 g = Color.green(color);
                 b = Color.blue(color);
-                double ratio = (r/(r+g+b))*100;
-                if (ratio > 40) {
-                    mBitmap.setPixel(j, i, Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
+                if (Math.abs(r - g) < 5 && Math.abs(g - b) < 5 && Math.abs(r - b) < 5) {
+                    mBitmap.setPixel(j, i,  Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }
         }
         return mBitmap;
     }
-
-
-
-
-
 }

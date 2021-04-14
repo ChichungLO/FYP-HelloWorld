@@ -39,26 +39,22 @@
         android:id="@+id/btn3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/clearBlue1"
+        android:text="@string/clearBlue"
         android:textColor="#FFEB3B" />
-    <Button
-        android:id="@+id/btn5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clearBlue2"
-        android:textColor="#FFEB3B" />
+
 
     <Button
         android:id="@+id/btn4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/clearRed1"
+        android:text="@string/clearRed"
         android:textColor="#FFEB3B" />
+
     <Button
-        android:id="@+id/btn6"
+        android:id="@+id/btn5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/clearRed1"
+        android:text="@string/clearPencil"
         android:textColor="#FFEB3B" />
 
 
