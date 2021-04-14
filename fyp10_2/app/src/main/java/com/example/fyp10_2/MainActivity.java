@@ -11,11 +11,16 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
@@ -142,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
                 //imageView.setImageBitmap(bm);
-                Bitmap newBitmap = clearPencil(bm, Color.argb(255,255,255,255));
+                Bitmap newBitmap = clearPencil(bm,Color.argb(255,255,255,255));
                 imageView.setImageDrawable(null);
                 imageView.setImageBitmap(newBitmap);
             }
@@ -273,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
 
 //    /**
 //     * 手机权限结果回调
@@ -432,4 +436,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return mBitmap;
     }
+
+
+
 }
