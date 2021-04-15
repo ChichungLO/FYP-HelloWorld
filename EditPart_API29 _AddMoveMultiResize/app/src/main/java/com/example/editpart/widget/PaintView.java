@@ -308,7 +308,16 @@ public class PaintView extends View {
 
     public void setImage(Bitmap bitmap) {
         toMove = true;
+        Log.e("paint_height", getHeight()+"");
+        Log.e("paint_width", getWidth()+"");
         image = Bitmap.createScaledBitmap(bitmap,getWidth()/2,getHeight()/2,true);
+        originalImage = image;
+        invalidate();
+    }
+
+    public void setImage(Bitmap bitmap, int height, int width) {
+        toMove = true;
+        image = Bitmap.createScaledBitmap(bitmap,width,height,true);
         originalImage = image;
         invalidate();
     }

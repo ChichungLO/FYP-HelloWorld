@@ -194,7 +194,7 @@
             android:src="@drawable/vector_drawable_camera"/>
 
         <ImageView
-            android:id="@+id/exportPDF"
+            android:id="@+id/exportPdf"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_weight="1"

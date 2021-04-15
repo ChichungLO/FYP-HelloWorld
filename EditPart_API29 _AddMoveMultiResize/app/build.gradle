@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.editpart"
-        minSdkVersion 26
+        minSdkVersion 29
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -38,5 +38,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation "com.github.QuadFlask:colorpicker:0.0.15"
+    implementation 'com.itextpdf:itextg:5.5.10'
+    implementation 'com.github.donkingliang:ImageSelector:2.2.0'
 
 }

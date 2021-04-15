@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Edit Part</string>
+    <string name="takePhoto">Take Photo</string>
+    <string name="SelectFromAlbum">Select from album</string>
+    <string name="clearBlue">Clear blue pens</string>
+    <string name="clearRed">Clear red pens</string>
+    <string name="clearPencil">Clear pencil</string>
+    <string name="SimplifiedChinese">Simplified Chinese</string>
+    <string name="English">English</string>
+    <string name="TraditionalChinese">Traditional Chinese</string>
 </resources>

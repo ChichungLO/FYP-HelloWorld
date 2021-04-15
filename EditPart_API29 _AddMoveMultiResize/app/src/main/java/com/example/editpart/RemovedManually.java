@@ -11,20 +11,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -39,7 +41,6 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_removed_manually);
 
         initTools();
 
@@ -76,6 +77,24 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
         eraserSize = brushSize = 12;
 
         mPaintView = findViewById(R.id.paint_view);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null){
+            BitmapBinder bitmapBinder = (BitmapBinder) bundle.getBinder("bitmap");
+            Bitmap bitmap = bitmapBinder.getBitmap();
+            //Log.e("aft_height", bitmap.getHeight()+"");
+            //Log.e("aft_width", bitmap.getWidth()+"");
+            //Log.e("bitmap==null?",(bitmap==null)+"");
+            Point p = new Point();
+//获取窗口管理器
+            WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+            wm.getDefaultDisplay().getSize(p);
+            int width = p.x;
+            Log.e("width", width+"");
+            int mul = width/bitmap.getWidth();
+            mPaintView.setImage(bitmap, bitmap.getHeight()*mul,bitmap.getWidth()*mul);
+            //mPaintView.setImage(bitmap);
+        }
 
         RecyclerView recyclerView = findViewById(R.id.recycler_view_tools);
         recyclerView.setHasFixedSize(true);

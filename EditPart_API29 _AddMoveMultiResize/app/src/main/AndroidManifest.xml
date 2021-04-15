@@ -2,8 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.editpart">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.miui.whetstone.permission.ACCESS_PROVIDER"/>
+    <!--调用相机权限-->
+    <uses-permission android:name="android.permission.CAMERA" />
 
 
     <application
@@ -25,6 +31,34 @@
         </activity>
         <activity android:name=".RemovedManually"></activity>
         <activity android:name=".ModifyContent"></activity>
+        <activity android:name=".OneClickDelete"></activity>
+
+        <provider
+            android:authorities="com.example.editpart.fileprovider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"
+                />
+        </provider>
+
+        <!--图片选择Activity-->
+        <activity android:name="com.donkingliang.imageselector.ImageSelectorActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+        <!--图片预览Activity-->
+        <activity android:name="com.donkingliang.imageselector.PreviewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+
+        <!--图片剪切Activity-->
+        <activity
+            android:name="com.donkingliang.imageselector.ClipImageActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
     </application>
 
 </manifest>
