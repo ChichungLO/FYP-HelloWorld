@@ -94,10 +94,11 @@ public class MainActivity extends AppCompatActivity {
                 //判断安卓系统版本
                 if (Build.VERSION.SDK_INT >= 24) {
                     //将File对象转换成一个封装过的Uri对象,接收3个参数，第一个是上下文，第二个是任意唯一字符串，第三个File对象
-                    StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
-                    StrictMode.setVmPolicy(builder.build());
+                    //StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                    //StrictMode.setVmPolicy(builder.build());
                     uri = FileProvider.getUriForFile(context, "com.example.fyp10_2.fileprovider", file);
-                    uri2 = Uri.fromFile(file);
+                    //uri2 = Uri.fromFile(file);
+                    uri2 = FileProvider.getUriForFile(getApplicationContext(),getPackageName()+".fileprovider",file);
                 } else {
                     uri = Uri.fromFile(file);
                 }
@@ -324,6 +325,7 @@ public class MainActivity extends AppCompatActivity {
                 if (data != null) {
                     // 得到图片的全路径
                     Uri uri = data.getData();
+                    System.out.println(uri+"哈哈");
                     crop(uri);
                     //imageView.setImageURI(uri);
                 }
