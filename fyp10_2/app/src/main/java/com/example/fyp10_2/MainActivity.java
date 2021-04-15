@@ -325,7 +325,6 @@ public class MainActivity extends AppCompatActivity {
                 if (data != null) {
                     // 得到图片的全路径
                     Uri uri = data.getData();
-                    System.out.println(uri+"哈哈");
                     crop(uri);
                     //imageView.setImageURI(uri);
                 }
