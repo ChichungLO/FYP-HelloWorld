@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+          Defined all the required menu items and sub menu items here
+      -->
+    <item
+        android:id="@+id/SimplifiedChinese"
+        android:title="@string/SimplifiedChinese" />
+
+    <item
+        android:id="@+id/TraditionalChinese"
+        android:title="@string/TraditionalChinese"></item>
+
+    <item
+        android:id="@+id/English"
+        android:title="@string/English"></item>
+
+
+</menu>
