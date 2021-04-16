@@ -1,9 +1,11 @@
 package com.example.editpart;
 
+import android.Manifest;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.Cursor;
@@ -30,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.donkingliang.imageselector.utils.ImageSelector;
@@ -71,8 +74,9 @@ public class OneClickDelete extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_one_click_delete);
 
+        setContentView(R.layout.activity_one_click_delete);
+        requestWritePermission();
         context = OneClickDelete.this;
         //获取控件实例
         imageView = findViewById(R.id.img);
@@ -419,8 +423,8 @@ public class OneClickDelete extends AppCompatActivity {
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         // 裁剪框的比例，1：1
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
+        //intent.putExtra("aspectX", 1);
+        //intent.putExtra("aspectY", 1);
         // 裁剪后输出图片的尺寸大小
         intent.putExtra("outputX", 300);
         intent.putExtra("outputY", 300);
@@ -555,4 +559,10 @@ public class OneClickDelete extends AppCompatActivity {
     public void finishPaint(View view) {
         finish();
     }
+    public void requestWritePermission(){
+        if (ActivityCompat.checkSelfPermission(OneClickDelete.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(OneClickDelete.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
+    }
+
 }
