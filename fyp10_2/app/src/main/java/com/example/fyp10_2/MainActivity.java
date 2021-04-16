@@ -412,7 +412,7 @@ public class MainActivity extends AppCompatActivity {
         // 裁剪后输出图片的尺寸大小
         intent.putExtra("outputX", 350);
         intent.putExtra("outputY", 350);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());// 图片格式
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
         intent.putExtra("return-data", true);
         // 开启一个带有返回值的Activity，请求码为4
