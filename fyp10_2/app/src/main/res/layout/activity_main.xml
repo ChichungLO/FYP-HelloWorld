@@ -54,7 +54,7 @@
         android:id="@+id/btn5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/clearPencil"
+        android:text="@string/save"
         android:textColor="#FFEB3B" />
 
 

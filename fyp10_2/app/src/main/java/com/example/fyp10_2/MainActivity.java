@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,8 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,6 +29,7 @@ import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,18 +46,24 @@ import androidx.core.content.FileProvider;
 
 import com.example.fyp10_2.R;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.CookieHandler;
 import java.net.Inet4Address;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
-
+    private String fileName;
+    private String mFilePath;
     Context context;
     ImageView imageView;
     Button btn; //拍照按钮
@@ -127,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent,2);
             }
         });
-
+        //清除蓝色
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,9 +146,11 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap newBitmap = clearBlue(bm, Color.argb(255,255,255,255));
                 imageView.setImageDrawable(null);
                 imageView.setImageBitmap(newBitmap);
+                Toast.makeText(getApplicationContext(),R.string.ClearSuccess,Toast.LENGTH_SHORT).show();
+
             }
         });
-
+        //清除红色
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,19 +159,46 @@ public class MainActivity extends AppCompatActivity {
                 Bitmap newBitmap = clearRed(bm, Color.argb(255,255,255,255));
                 imageView.setImageDrawable(null);
                 imageView.setImageBitmap(newBitmap);
+                Toast.makeText(getApplicationContext(),R.string.ClearSuccess,Toast.LENGTH_SHORT).show();
+
             }
         });
-
+        //保存并清空图片
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
-                //imageView.setImageBitmap(bm);
-                Bitmap newBitmap = clearPencil(bm,Color.argb(255,255,255,255));
-                imageView.setImageDrawable(null);
-                imageView.setImageBitmap(newBitmap);
+                save();
             }
         });
+
+    }
+    //将处理完的照片存入系统相册
+    public void save(){
+        Drawable drawable = imageView.getDrawable();
+        File fileDir = new File(Environment.getExternalStorageDirectory(),"Pictures");
+        if(!fileDir.exists()){
+            fileDir.mkdir();
+        }
+        fileName = "IMG_" + System.currentTimeMillis() + ".jpg";
+        mFilePath = fileDir.getAbsolutePath() + "/" + fileName;
+        Uri fileUri = null;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME,fileName);
+        contentValues.put(MediaStore.Images.Media.DATA,mFilePath);
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE,"image/JPEG");
+        fileUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
+        try {
+            OutputStream outputStream = imageView.getContext().getContentResolver().openOutputStream(fileUri);
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+            outputStream.flush();
+            outputStream.close();
+            imageView.getContext().sendBroadcast(new Intent("com.android.camera.NEW_PICTURE",fileUri));
+            imageView.setImageDrawable(null);
+            Toast.makeText(getApplicationContext(),R.string.SaveSuccess,Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
     //语言切换菜单
@@ -357,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
         // 裁剪后输出图片的尺寸大小
         intent.putExtra("outputX", 350);
         intent.putExtra("outputY", 350);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());// 图片格式
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
         intent.putExtra("return-data", true);
         // 开启一个带有返回值的Activity，请求码为4
@@ -366,27 +405,6 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, 4);
     }
 
-
-    public Bitmap replaceBitmapColor(Bitmap oldBitmap, int oldColor, int newColor) {
-        Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int color = mBitmap.getPixel(j, i);
-                int r = Color.red(color);
-                int g = Color.green(color);
-                int b = Color.blue(color);
-//                if (g > r && g > b) {
-//                    mBitmap.setPixel(j, i, (int) (newColor));
-//                }
-                if (r < 20 && g < 20 && b < 20) {
-                    mBitmap.setPixel(j, i, (int) (newColor));
-                }
-            }
-        }
-        return mBitmap;
-    }
 
     public Bitmap clearBlue(Bitmap oldBitmap,int newColor) {
         Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -433,30 +451,6 @@ public class MainActivity extends AppCompatActivity {
                 g = Color.green(color);
                 b = Color.blue(color);
                 if (r - b > 5 && r - g > 5) {
-                    mBitmap.setPixel(j, i,  Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
-                }
-            }
-        }
-        return mBitmap;
-    }
-
-    public Bitmap clearPencil(Bitmap oldBitmap,int newColor) {
-        Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        int[] c = getBackgroundColor(mBitmap);
-        Random rand = new Random();
-        int r;
-        int g;
-        int b;
-        int color;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                color = mBitmap.getPixel(j, i);
-                r = Color.red(color);
-                g = Color.green(color);
-                b = Color.blue(color);
-                if (Math.abs(r - g) < 3 && Math.abs(g - b) < 3 && Math.abs(r - b) < 3 && r < 210 && g < 210 && b < 210 && r > 140 && g >140 && b > 140) {
                     mBitmap.setPixel(j, i,  Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
                 }
             }

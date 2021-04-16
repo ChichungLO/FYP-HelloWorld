@@ -4,8 +4,12 @@
     <string name="SelectFromAlbum">Select from album</string>
     <string name="clearBlue">Clear blue pens</string>
     <string name="clearRed">Clear red pens</string>
-    <string name="clearPencil">Clear pencil</string>
+    <string name="save">Save and Clear</string>
     <string name="SimplifiedChinese">Simplified Chinese</string>
     <string name="English">English</string>
     <string name="TraditionalChinese">Traditional Chinese</string>
+
+    <string name="SaveSuccess">The image is saved successfully</string>
+    <string name="ClearSuccess">Success</string>
+
 </resources>
