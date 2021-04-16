@@ -1,6 +1,7 @@
 package com.example.editpart;
 
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,11 +11,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,21 +31,39 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.donkingliang.imageselector.utils.ImageSelector;
+import com.donkingliang.imageselector.utils.UriUtils;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
 public class OneClickDelete extends AppCompatActivity {
+    private String fileName;
+    private String mFilePath;
+    String imagePath;
+
     Context context;
     ImageView imageView;
     Button btn; //拍照按钮
     Button btn2; //从相册中选择
     Button btn3; //清除手写内容
     Button btn4; //清除手写内容
-    Button btn5; //清除手写内容
+    Button btn5; //保存内容
     Button btn6; //手动清除内容
     Button btn7; //添加文字
+    Button btn8; //导出到pdf
 
     Uri uri; //显示拍的图片
     Uri uri2;
@@ -60,6 +82,7 @@ public class OneClickDelete extends AppCompatActivity {
         btn5 = findViewById(R.id.btn5);
         btn6 = findViewById(R.id.btn6);
         btn7 = findViewById(R.id.btn7);
+        btn8 = findViewById(R.id.btn8);
 
         //点击拍照
         btn.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +134,7 @@ public class OneClickDelete extends AppCompatActivity {
                 startActivityForResult(intent,2);
             }
         });
-
+        //清除蓝色
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,9 +143,10 @@ public class OneClickDelete extends AppCompatActivity {
                 Bitmap newBitmap = clearBlue(bm, Color.argb(255,255,255,255));
                 imageView.setImageDrawable(null);
                 imageView.setImageBitmap(newBitmap);
+                Toast.makeText(getApplicationContext(),R.string.ClearSuccess,Toast.LENGTH_SHORT).show();
             }
         });
-
+        //清除红色
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,17 +155,14 @@ public class OneClickDelete extends AppCompatActivity {
                 Bitmap newBitmap = clearRed(bm, Color.argb(255,255,255,255));
                 imageView.setImageDrawable(null);
                 imageView.setImageBitmap(newBitmap);
+                Toast.makeText(getApplicationContext(),R.string.ClearSuccess,Toast.LENGTH_SHORT).show();
             }
         });
-
+        //保存并清空图片
         btn5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
-                //imageView.setImageBitmap(bm);
-                Bitmap newBitmap = clearPencil(bm,Color.argb(255,255,255,255));
-                imageView.setImageDrawable(null);
-                imageView.setImageBitmap(newBitmap);
+                save();
             }
         });
 
@@ -178,8 +199,46 @@ public class OneClickDelete extends AppCompatActivity {
                 }
             }
         });
-
+        //导出到pdf
+        btn8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageSelector.builder()
+                        .setSingle(false)  //设置是否单选
+                        .start(OneClickDelete.this, 5); // 打开相册
+            }
+        });
     }
+
+    //将处理完的照片存入系统相册
+    public void save(){
+        Drawable drawable = imageView.getDrawable();
+        File fileDir = new File(Environment.getExternalStorageDirectory(),"Pictures");
+        if(!fileDir.exists()){
+            fileDir.mkdir();
+        }
+        fileName = "IMG_" + System.currentTimeMillis() + ".jpg";
+        mFilePath = fileDir.getAbsolutePath() + "/" + fileName;
+        Uri fileUri = null;
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Images.Media.DISPLAY_NAME,fileName);
+        contentValues.put(MediaStore.Images.Media.DATA,mFilePath);
+        contentValues.put(MediaStore.Images.Media.MIME_TYPE,"image/JPEG");
+        fileUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,contentValues);
+        try {
+            OutputStream outputStream = imageView.getContext().getContentResolver().openOutputStream(fileUri);
+            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream);
+            outputStream.flush();
+            outputStream.close();
+            imageView.getContext().sendBroadcast(new Intent("com.android.camera.NEW_PICTURE",fileUri));
+            imageView.setImageDrawable(null);
+            Toast.makeText(getApplicationContext(),R.string.SaveSuccess,Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     //语言切换菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -212,14 +271,6 @@ public class OneClickDelete extends AppCompatActivity {
         return false;
     }
 
-    //    /**
-//     * 打开相册
-//     */
-//    private void openAlbum() {
-//        Intent intent = new Intent("android.intent.action.GET_CONTENT");
-//        intent.setType("image/*");
-//        startActivityForResult(intent, 3);
-//    }
     private int[] getBackgroundColor(Bitmap bitmap){
         Bitmap mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         int width = mBitmap.getWidth();
@@ -305,23 +356,6 @@ public class OneClickDelete extends AppCompatActivity {
 
     }
 
-//    /**
-//     * 手机权限结果回调
-//     *
-//     * @param requestCode
-//     * @param permissions
-//     * @param grantResults
-//     */
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == 2) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                openAlbum();
-//            } else {
-//                Toast.makeText(context, "You denied the permission", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
     /**
      * 如果拍照成功，则回调该方法得到所拍照的图片
@@ -359,6 +393,14 @@ public class OneClickDelete extends AppCompatActivity {
             case 4:
                 imageView.setImageURI(data.getData());
                 break;
+            case 5:
+                if (data != null ){
+                    ArrayList<String> imagesAddress = data.getStringArrayListExtra(ImageSelector.SELECT_RESULT);
+                    Uri uri = UriUtils.getImageContentUri(OneClickDelete.this, imagesAddress.get(0));
+                    exportPDF(imagesAddress);
+                    imagePath = getPAth(uri);
+                    //imageView.setImageURI(uri);
+                }
         }
     }
     private void crop(Uri uri) {
@@ -382,28 +424,6 @@ public class OneClickDelete extends AppCompatActivity {
         Uri cropUri = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
         intent.putExtra(MediaStore.EXTRA_OUTPUT,cropUri);
         startActivityForResult(intent, 4);
-    }
-
-
-    public Bitmap replaceBitmapColor(Bitmap oldBitmap, int oldColor, int newColor) {
-        Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                int color = mBitmap.getPixel(j, i);
-                int r = Color.red(color);
-                int g = Color.green(color);
-                int b = Color.blue(color);
-//                if (g > r && g > b) {
-//                    mBitmap.setPixel(j, i, (int) (newColor));
-//                }
-                if (r < 20 && g < 20 && b < 20) {
-                    mBitmap.setPixel(j, i, (int) (newColor));
-                }
-            }
-        }
-        return mBitmap;
     }
 
     public Bitmap clearBlue(Bitmap oldBitmap,int newColor) {
@@ -458,30 +478,69 @@ public class OneClickDelete extends AppCompatActivity {
         return mBitmap;
     }
 
-    public Bitmap clearPencil(Bitmap oldBitmap,int newColor) {
-        Bitmap mBitmap = oldBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        int width = mBitmap.getWidth();
-        int height = mBitmap.getHeight();
-        int[] c = getBackgroundColor(mBitmap);
-        Random rand = new Random();
-        int r;
-        int g;
-        int b;
-        int color;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                color = mBitmap.getPixel(j, i);
-                r = Color.red(color);
-                g = Color.green(color);
-                b = Color.blue(color);
-                if (Math.abs(r - g) < 3 && Math.abs(g - b) < 3 && Math.abs(r - b) < 3 && r < 210 && g < 210 && b < 210 && r > 140 && g >140 && b > 140) {
-                    mBitmap.setPixel(j, i,  Color.argb(255,c[0]+rand.nextInt(15),c[1]+rand.nextInt(15),c[2]+rand.nextInt(15)));
-                }
+    //导出PDF
+    private void exportPDF (ArrayList<String> imagesAddress)  {
+        //PDF导出后的存放路径，根据Android Q 分区储存特性，将储存在该App的私有目录下
+        String pdfPath = getExternalFilesDir(null) +"/" + generatePdfName();
+        System.out.println(pdfPath+"哈哈");
+        Document pdf = new Document(PageSize.A4);
+        try {
+            PdfWriter.getInstance(pdf,new FileOutputStream(pdfPath));
+            pdf.open();
+            for (int i = 0; i < imagesAddress.size(); i++){
+                pdf.newPage();
+//                pdf.add(new Paragraph("This is Page: " + (i+1)));
+                com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(imagesAddress.get(i));
+                float height  = image.getHeight();
+                float width = image.getWidth();
+                int percent = getPercent2(height, width);
+                image.setAlignment(Image.MIDDLE);
+                image.scalePercent(percent);
+                image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+                pdf.add(image);
             }
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }catch (DocumentException e){
+            e.printStackTrace();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            pdf.close();
+            Toast.makeText(this,"PDF is saved in:\n" + pdfPath,
+                    Toast.LENGTH_LONG).show();
         }
-        return mBitmap;
     }
-
-
-
+    //根据时间生成PDF文件名以达到唯一性
+    private String generatePdfName(){
+        String pdfFileName = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(System.currentTimeMillis());
+        return "iText_"+pdfFileName+".pdf";
+    }
+    /**
+     * 第二种图片裁剪解决方案：统一按照宽度压缩 这样来的效果是，所有图片的宽度是相等，测试显示效果较好。
+     */
+    private int getPercent2(float h, float w){
+        int p = 0; float p2 = 0.0f;
+        p2 = 530 / w * 100;
+        p = Math.round(p2);
+        return p;
+    }
+    public String getPAth(Uri uri) {
+        String path = null;
+        if (!TextUtils.isEmpty(uri.getAuthority())) {
+            Cursor cursor = getContentResolver().query(uri,
+                    new String[]{MediaStore.Images.Media.DATA}, null, null, null);
+            if (null == cursor) {
+                Toast.makeText(this, "图片没找到", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+            cursor.moveToFirst();
+            path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            cursor.close();
+        } else {
+            path = uri.getPath();
+        }
+        return path;
+    }
 }

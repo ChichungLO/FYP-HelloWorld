@@ -35,41 +35,68 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn3"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/clearBlue"
-        android:textColor="#FFEB3B" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clearBlue"
+            android:textColor="#FFEB3B" />
 
 
-    <Button
-        android:id="@+id/btn4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clearRed"
-        android:textColor="#FFEB3B" />
+        <Button
+            android:id="@+id/btn4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clearRed"
+            android:textColor="#FFEB3B" />
 
-    <Button
-        android:id="@+id/btn5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/clearPencil"
-        android:textColor="#FFEB3B" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btn6"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Removed Manually"
-        android:textColor="#FFEB3B" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btn7"
-        android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/save"
+            android:textColor="#FFEB3B" />
+
+        <Button
+            android:id="@+id/btn6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Removed Manually"
+            android:textColor="#FFEB3B" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Modify Content"
-        android:textColor="#FFEB3B" />
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modify Content"
+            android:textColor="#FFEB3B" />
+        <Button
+            android:id="@+id/btn8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Export"
+            android:textColor="#FFEB3B" />
+    </LinearLayout>
+
 
 
 </LinearLayout>
