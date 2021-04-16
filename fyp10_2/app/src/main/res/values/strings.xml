@@ -11,5 +11,6 @@
 
     <string name="SaveSuccess">The image is saved successfully</string>
     <string name="ClearSuccess">Success</string>
+    <string name="Export">Export to PDF</string>
 
 </resources>

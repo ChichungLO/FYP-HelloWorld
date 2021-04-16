@@ -12,6 +12,7 @@
 
     <string name="SaveSuccess">图片已经成功保存</string>
     <string name="ClearSuccess">清除成功</string>
+    <string name="Export">导出到PDF</string>
 
 
 

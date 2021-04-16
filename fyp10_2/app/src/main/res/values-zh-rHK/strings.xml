@@ -12,5 +12,6 @@
 
     <string name="SaveSuccess">圖片已經成功保存</string>
     <string name="ClearSuccess">清除成功</string>
+    <string name="Export">導出到PDF</string>
 
 </resources>
