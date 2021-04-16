@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Please Enter Text"
+        android:text="@string/please_enter_text"
         android:textSize="18sp" />
 
     <View
@@ -23,7 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@null"
-        android:hint="Please enter"
+        android:hint="@string/please_enter"
         android:paddingBottom="15dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -47,7 +47,7 @@
             android:paddingBottom="15dp"
             android:paddingLeft="10dp"
             android:paddingTop="15dp"
-            android:text="Set the font color" />
+            android:text="@string/set_font_color" />
 
         <com.example.editpart.widget.ColorTagImageView
             android:id="@+id/color_tag"
@@ -78,7 +78,7 @@
             android:paddingBottom="15dp"
             android:paddingLeft="10dp"
             android:paddingTop="15dp"
-            android:text="Set the font " />
+            android:text="@string/set_font" />
 
 
         <HorizontalScrollView
@@ -123,7 +123,7 @@
             android:background="@drawable/selector_btn"
             android:gravity="center"
             android:padding="10dp"
-            android:text="Cancel" />
+            android:text="@string/cancel" />
 
         <TextView
             android:layout_width="1dp"
@@ -138,6 +138,6 @@
             android:background="@drawable/selector_btn"
             android:gravity="center"
             android:padding="10dp"
-            android:text="OK" />
+            android:text="@string/ok" />
     </LinearLayout>
 </LinearLayout>

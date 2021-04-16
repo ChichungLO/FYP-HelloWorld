@@ -25,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -56,14 +57,14 @@ public class OneClickDelete extends AppCompatActivity {
 
     Context context;
     ImageView imageView;
-    Button btn; //拍照按钮
-    Button btn2; //从相册中选择
-    Button btn3; //清除手写内容
-    Button btn4; //清除手写内容
-    Button btn5; //保存内容
-    Button btn6; //手动清除内容
-    Button btn7; //添加文字
-    Button btn8; //导出到pdf
+    ImageButton btn; //拍照按钮
+    ImageButton btn2; //从相册中选择
+    ImageButton btn3; //清除手写内容
+    ImageButton btn4; //清除手写内容
+    ImageButton btn5; //保存内容
+    ImageButton btn6; //手动清除内容
+    ImageButton btn7; //添加文字
+    ImageButton btn8; //导出到pdf
 
     Uri uri; //显示拍的图片
     Uri uri2;
@@ -239,6 +240,8 @@ public class OneClickDelete extends AppCompatActivity {
         }
     }
 
+    //此菜单挪到了homepage的setting位置
+    /*
     //语言切换菜单
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -270,6 +273,8 @@ public class OneClickDelete extends AppCompatActivity {
         startActivity(intent);
         return false;
     }
+
+     */
 
     private int[] getBackgroundColor(Bitmap bitmap){
         Bitmap mBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -542,5 +547,9 @@ public class OneClickDelete extends AppCompatActivity {
             path = uri.getPath();
         }
         return path;
+    }
+
+    public void finishPaint(View view) {
+        finish();
     }
 }

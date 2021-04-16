@@ -20,7 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/FullScreen">
         <activity android:name=".ViewFileAct"></activity>
-        <activity android:name=".ListFilesAct" />
         <activity android:name=".HomePage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,13 +29,7 @@
         </activity>
         <activity android:name=".RemovedManually"></activity>
         <activity android:name=".ModifyContent"></activity>
-        <activity android:name=".OneClickDelete">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".OneClickDelete"></activity>
 
         <provider
             android:authorities="com.example.editpart.fileprovider"

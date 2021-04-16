@@ -58,6 +58,8 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
     int colorBackground,colorBrush;
     int brushSize,eraserSize;
 
+    Common common;
+
 
 
     @Override
@@ -77,6 +79,8 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
         eraserSize = brushSize = 12;
 
         mPaintView = findViewById(R.id.paint_view);
+
+        common = new Common(getString(R.string.brush), getString(R.string.eraser), getString(R.string.colors), getString(R.string.background), getString(R.string._return), getString(R.string.delete), getString(R.string.add_image), getString(R.string.add_text));
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
@@ -108,13 +112,13 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
 
         List<ToolsItem> result = new ArrayList<>();
 
-        result.add(new ToolsItem(R.drawable.ic_baseline_brush_24, Common.BRUSH));
-        result.add(new ToolsItem(R.drawable.ic_baseline_delete_forever_24,Common.ERASER));
-        result.add(new ToolsItem(R.drawable.ic_baseline_image_search_24,Common.IMAGE));
-        result.add(new ToolsItem(R.drawable.ic_baseline_palette_24,Common.COLORS));
-        result.add(new ToolsItem(R.drawable.ic_baseline_text_fields_24,Common.TEXT));
-        result.add(new ToolsItem(R.drawable.ic_baseline_format_paint_24,Common.BACKGROUND));
-        result.add(new ToolsItem(R.drawable.ic_baseline_undo_24,Common.RETURN));
+        result.add(new ToolsItem(R.drawable.ic_baseline_image_search_24,common.getImage()));
+        result.add(new ToolsItem(R.drawable.ic_baseline_brush_24, common.getBrush()));
+        result.add(new ToolsItem(R.drawable.ic_baseline_delete_forever_24,common.getEraser()));
+        result.add(new ToolsItem(R.drawable.ic_baseline_palette_24,common.getColors()));
+        result.add(new ToolsItem(R.drawable.ic_baseline_text_fields_24,common.getText()));
+        result.add(new ToolsItem(R.drawable.ic_baseline_format_paint_24,common.getBackground()));
+        result.add(new ToolsItem(R.drawable.ic_baseline_undo_24,common.get_return()));
 
         return result;
 
@@ -131,10 +135,6 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
         intent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.app_name));
         intent.putExtra(Intent.EXTRA_TEXT,bodyText);
         startActivity(Intent.createChooser(intent,"share this app"));
-    }
-
-    public void showFiles(View view) {
-        startActivity(new Intent(this,ListFilesAct.class));
     }
 
     public void saveFile(View view) {
@@ -227,37 +227,23 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
     @Override
     public void onSelected(String name) {
 
-        switch (name){
-            case Common.BRUSH:
-                mPaintView.toMove = false;
-                mPaintView.desableEraser();
-                mPaintView.invalidate();
-                showDialogSize(false);
-                break;
-
-            case Common.ERASER:
-                mPaintView.enableEraser();
-                showDialogSize(true);
-                break;
-
-            case Common.RETURN:
-                mPaintView.returnLastAction();
-                break;
-
-            case Common.BACKGROUND:
-                updateColor(name);
-                break;
-
-            case Common.COLORS:
-                updateColor(name);
-                break;
-
-            case Common.IMAGE:
-                getImage();
-                break;
-
-            case Common.TEXT:
-                /*
+        if (common.getBrush().equals(name)) {
+            mPaintView.toMove = false;
+            mPaintView.desableEraser();
+            mPaintView.invalidate();
+            showDialogSize(false);
+        } else if (common.getEraser().equals(name)) {
+            mPaintView.enableEraser();
+            showDialogSize(true);
+        } else if (common.get_return().equals(name)) {
+            mPaintView.returnLastAction();
+        } else if (common.getBackground().equals(name)) {
+            updateColor(name);
+        } else if (common.getColors().equals(name)) {
+            updateColor(name);
+        } else if (common.getImage().equals(name)) {
+            getImage();
+        } else if (common.getText().equals(name)) {/*
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 mPaintView.getBitmap().compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
@@ -268,14 +254,13 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
 
                  */
 
-                Intent i = new Intent(RemovedManually.this, ModifyContent.class);
-                Bitmap bitmap = mPaintView.getBitmap();
-                Bundle bundle = new Bundle();
-                //Log.i("MainActivity", "bitmap大小: " + bitmap.getByteCount() / 1024 + " kb");
-                bundle.putBinder("bitmap", new BitmapBinder(bitmap));
-                i.putExtras(bundle);
-                startActivity(i);
-                break;
+            Intent i = new Intent(RemovedManually.this, ModifyContent.class);
+            Bitmap bitmap = mPaintView.getBitmap();
+            Bundle bundle = new Bundle();
+            //Log.i("MainActivity", "bitmap大小: " + bitmap.getByteCount() / 1024 + " kb");
+            bundle.putBinder("bitmap", new BitmapBinder(bitmap));
+            i.putExtras(bundle);
+            startActivity(i);
         }
 
     }
@@ -313,7 +298,7 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
 
         int color;
 
-        if(name.equals(Common.BACKGROUND)){
+        if(name.equals(common.getBackground())){
             color = colorBackground;
         }else{
             color = colorBrush;
@@ -331,7 +316,7 @@ public class RemovedManually extends AppCompatActivity implements ToolsListener 
                     @Override
                     public void onClick(DialogInterface d, int lastSelectedColor, Integer[] allColors) {
 
-                        if(name.equals(Common.BACKGROUND)){
+                        if(name.equals(common.getBackground())){
                             colorBackground = lastSelectedColor;
                             mPaintView.setColorBackground(colorBackground);
                         }else{

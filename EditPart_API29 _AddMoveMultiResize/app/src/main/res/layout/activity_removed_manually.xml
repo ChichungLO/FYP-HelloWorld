@@ -14,10 +14,10 @@
         android:id="@+id/paint_view"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray"
-        android:id="@+id/recycler_view_tools"/>
+        android:background="@color/gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,12 +46,12 @@
                 android:src="@drawable/ic_baseline_share_24"
                 android:onClick="shareApp"/>
 
-            <ImageButton
+            <!--<ImageButton
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:background="@color/gray"
                 android:src="@drawable/ic_baseline_home_24"
-                android:onClick="showFiles"/>
+                android:onClick="showFiles"/>-->
 
             <ImageButton
                 android:layout_width="50dp"

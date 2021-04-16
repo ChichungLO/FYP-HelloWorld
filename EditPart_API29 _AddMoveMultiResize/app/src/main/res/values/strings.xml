@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">fyp10_2</string>
-    <string name="takePhoto">Take Photo</string>
-    <string name="SelectFromAlbum">Select from album</string>
+    <string name="app_name" translatable="false">Paper Cleaner</string>
+    <string name="takePhoto">Camera</string>
+    <string name="SelectFromAlbum">Select Image</string>
     <string name="clearBlue">Clear blue pens</string>
     <string name="clearRed">Clear red pens</string>
     <string name="save">Save and Clear</string>
@@ -12,5 +12,29 @@
     <string name="SaveSuccess">The image is saved successfully</string>
     <string name="ClearSuccess">Success</string>
     <string name="Export">Export to PDF</string>
+    <string name="one_click_delete1">One-Click</string>
+    <string name="removed_manually1">Removed</string>
+    <string name="one_click_delete2">Delete</string>
+    <string name="removed_manually2">Manually</string>
+    <string name="modify_content1">Modify</string>
+    <string name="modify_content2">Content</string>
+    <string name="user_manual1">User</string>
+    <string name="user_manual2">Manual</string>
+    <string name="brush">brush</string>
+    <string name="eraser">eraser</string>
+    <string name="colors">colors</string>
+    <string name="background">background</string>
+    <string name="_return">return</string>
+    <string name="delete">delete</string>
+    <string name="add_image">add image</string>
+    <string name="add_text">add text</string>
+    <string name="please_enter_text">Please Enter Text</string>
+    <string name="please_enter">Please Enter</string>
+    <string name="set_font_color">Set the font color</string>
+    <string name="set_font">"Set the font "</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="removed_manually">Removed Manually</string>
+    <string name="modify_content">Modify Content</string>
 
 </resources>

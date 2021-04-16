@@ -2,13 +2,18 @@ package com.example.editpart;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,6 +43,8 @@ public class HomePage extends AppCompatActivity {
     LinearLayout manual;
 
     ImageView btnExportPdf;
+    ImageView setting;
+
     String imagePath;
 
 
@@ -84,6 +91,54 @@ public class HomePage extends AppCompatActivity {
                         .start(HomePage.this, 2); // 打开相册
             }
         });
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+            }
+        });
+    }
+
+    private void showPopupMenu(View v) {
+        // View当前PopupMenu显示的相对View的位置
+        PopupMenu popupMenu = new PopupMenu(this, v);
+        // menu布局
+        popupMenu.getMenuInflater().inflate(R.menu.app_menu, popupMenu.getMenu());
+        // menu的item点击事件
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Resources resources = getResources();
+                Configuration config = resources.getConfiguration();
+                DisplayMetrics dm = resources.getDisplayMetrics();
+                switch (item.getItemId()) {
+                    case R.id.SimplifiedChinese:
+                        config.setLocale(Locale.SIMPLIFIED_CHINESE);
+                        break;
+                    case R.id.TraditionalChinese:
+                        config.setLocale(Locale.TRADITIONAL_CHINESE);
+                        break;
+                    case R.id.English:
+                        config.setLocale(Locale.ENGLISH);
+                        break;
+                }
+                resources.updateConfiguration(config,dm);
+                finish();
+                Intent intent = new Intent(HomePage.this,HomePage.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+        // PopupMenu关闭事件
+        popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
+            @Override
+            public void onDismiss(PopupMenu menu) {
+                //Toast.makeText(getApplicationContext(), "关闭PopupMenu", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        popupMenu.show();
     }
 
     public void initialView(){
@@ -92,6 +147,8 @@ public class HomePage extends AppCompatActivity {
         modify = findViewById(R.id.modify);
         manual = findViewById(R.id.manual);
         btnExportPdf = findViewById(R.id.exportPdf);
+
+        setting = findViewById(R.id.setting);
     }
 
     //导出PDF
