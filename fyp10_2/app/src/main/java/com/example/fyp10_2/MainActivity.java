@@ -1,6 +1,7 @@
 package com.example.fyp10_2;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ContentUris;
@@ -20,7 +21,6 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +28,7 @@ import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -39,12 +40,20 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.donkingliang.imageselector.utils.ImageSelector;
+import com.donkingliang.imageselector.utils.UriUtils;
 import com.example.fyp10_2.R;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,6 +66,7 @@ import java.net.CookieHandler;
 import java.net.Inet4Address;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Random;
@@ -64,20 +74,25 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
     private String fileName;
     private String mFilePath;
+    String imagePath;
     Context context;
     ImageView imageView;
     Button btn; //拍照按钮
     Button btn2; //从相册中选择
     Button btn3; //清除手写内容
     Button btn4; //清除手写内容
-    Button btn5; //清除手写内容
+    Button btn5; //保存内容
+    Button btn6; //导出至PDF
     Uri uri; //显示拍的图片
     Uri uri2;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         context = MainActivity.this;
         //获取控件实例
         imageView = findViewById(R.id.img);
@@ -86,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         btn3 = findViewById(R.id.btn3);
         btn4 = findViewById(R.id.btn4);
         btn5 = findViewById(R.id.btn5);
+        btn6 = findViewById(R.id.btn6);
 
         //点击拍照
         btn.setOnClickListener(new View.OnClickListener() {
@@ -168,6 +184,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 save();
+            }
+        });
+
+        btn6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageSelector.builder()
+                        .setSingle(false)  //设置是否单选
+                        .start(MainActivity.this, 5); // 打开相册
             }
         });
 
@@ -326,23 +351,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    /**
-//     * 手机权限结果回调
-//     *
-//     * @param requestCode
-//     * @param permissions
-//     * @param grantResults
-//     */
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == 2) {
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                openAlbum();
-//            } else {
-//                Toast.makeText(context, "You denied the permission", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
     /**
      * 如果拍照成功，则回调该方法得到所拍照的图片
@@ -352,7 +360,7 @@ public class MainActivity extends AppCompatActivity {
      * @param data        所得到的图片数据
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case 1:
@@ -380,6 +388,14 @@ public class MainActivity extends AppCompatActivity {
             case 4:
                 imageView.setImageURI(data.getData());
                 break;
+            case 5:
+                if (data != null ){
+                    ArrayList<String> imagesAddress = data.getStringArrayListExtra(ImageSelector.SELECT_RESULT);
+                    Uri uri = UriUtils.getImageContentUri(MainActivity.this, imagesAddress.get(0));
+                    exportPDF(imagesAddress);
+                    imagePath = getPAth(uri);
+                    //imageView.setImageURI(uri);
+                }
         }
     }
     private void crop(Uri uri) {
@@ -460,4 +476,70 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    //导出PDF
+    private void exportPDF (ArrayList<String> imagesAddress)  {
+        //PDF导出后的存放路径，根据Android Q 分区储存特性，将储存在该App的私有目录下
+        String pdfPath = getExternalFilesDir(null) +"/" + generatePdfName();
+        System.out.println(pdfPath+"哈哈");
+        Document pdf = new Document(PageSize.A4);
+        try {
+            PdfWriter.getInstance(pdf,new FileOutputStream(pdfPath));
+            pdf.open();
+            for (int i = 0; i < imagesAddress.size(); i++){
+                pdf.newPage();
+//                pdf.add(new Paragraph("This is Page: " + (i+1)));
+                com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(imagesAddress.get(i));
+                float height  = image.getHeight();
+                float width = image.getWidth();
+                int percent = getPercent2(height, width);
+                image.setAlignment(Image.MIDDLE);
+                image.scalePercent(percent);
+                image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
+                pdf.add(image);
+            }
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }catch (DocumentException e){
+            e.printStackTrace();
+        }catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            pdf.close();
+            Toast.makeText(this,"PDF is saved in:\n" + pdfPath,
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+    /**
+     * 第二种图片裁剪解决方案：统一按照宽度压缩 这样来的效果是，所有图片的宽度是相等，测试显示效果较好。
+     */
+    private int getPercent2(float h, float w){
+        int p = 0; float p2 = 0.0f;
+        p2 = 530 / w * 100;
+        p = Math.round(p2);
+        return p;
+    }
+
+    //根据时间生成PDF文件名以达到唯一性
+    private String generatePdfName(){
+        String pdfFileName = new SimpleDateFormat("yyyyMMdd_HHmmss",
+                Locale.getDefault()).format(System.currentTimeMillis());
+        return "iText_"+pdfFileName+".pdf";
+    }
+    public String getPAth(Uri uri) {
+        String path = null;
+        if (!TextUtils.isEmpty(uri.getAuthority())) {
+            Cursor cursor = getContentResolver().query(uri,
+                    new String[]{MediaStore.Images.Media.DATA}, null, null, null);
+            if (null == cursor) {
+                Toast.makeText(this, "图片没找到", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+            cursor.moveToFirst();
+            path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            cursor.close();
+        } else {
+            path = uri.getPath();
+        }
+        return path;
+    }
 }

@@ -56,6 +56,13 @@
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:textColor="#FFEB3B" />
+    <Button
+        android:id="@+id/btn6"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="28dp"
+        android:enabled="true"
+        android:text="Export to PDF"/>
 
 
 </LinearLayout>
