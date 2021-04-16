@@ -410,8 +410,8 @@ public class MainActivity extends AppCompatActivity {
         //intent.putExtra("aspectX", 1);
         //intent.putExtra("aspectY", 1);
         // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 350);
-        intent.putExtra("outputY", 350);
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
         intent.putExtra("return-data", true);
