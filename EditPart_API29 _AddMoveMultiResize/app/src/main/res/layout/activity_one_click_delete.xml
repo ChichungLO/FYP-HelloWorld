@@ -52,7 +52,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_baseline_camera_alt_24"
-                        android:textColor="#FFEB3B" />
+                        android:background="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_baseline_image_search_24"
-                        android:textColor="#FFEB3B" />
+                        android:background="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_baseline_blue_color_reset_24"
-                        android:textColor="#FFEB3B" />
+                        android:background="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_baseline_red_color_reset_24"
-                        android:textColor="#FFEB3B" />
+                        android:background="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -132,7 +132,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_baseline_file_download_24"
-                        android:textColor="#FFEB3B" />
+                        android:background="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_baseline_brush_24"
-                        android:textColor="#FFEB3B" />
+                        android:background="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -172,7 +172,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_baseline_text_fields_24"
-                        android:textColor="#FFEB3B" />
+                        android:background="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -182,7 +182,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
@@ -192,7 +191,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/vector_drawable_pdf"
-                        android:textColor="#FFEB3B" />
+                        android:background="@color/gray" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
