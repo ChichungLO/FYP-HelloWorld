@@ -128,12 +128,6 @@ public class OneClickDelete extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (ContextCompat.checkSelfPermission(context,
-//                        Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
-//                } else {
-//                    openAlbum();
-//                }
                 Intent intent = new Intent(Intent.ACTION_PICK,null);
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
                 startActivityForResult(intent,2);
@@ -423,8 +417,8 @@ public class OneClickDelete extends AppCompatActivity {
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         // 裁剪框的比例，1：1
-        //intent.putExtra("aspectX", 1);
-        //intent.putExtra("aspectY", 1);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
         // 裁剪后输出图片的尺寸大小
         intent.putExtra("outputX", 300);
         intent.putExtra("outputY", 300);
