@@ -172,35 +172,26 @@ public class PaintView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         float x = event.getX();
         float y = event.getY();
-
         switch (event.getAction()){
-
             case MotionEvent.ACTION_DOWN:
                 touchStart(x,y);
                 refY = y;
                 refX = x;
-
                 if(toMove){
-
                     if(isToResize(refX,refY)){
                         toResize = true;
                     }else {
                         toResize = false;
                     }
-
                     if((refX >= xCenter && refX < xCenter + captureImage.getWidth())
                         &&(refY >= yCenter && refY < yCenter + captureImage.getHeight())) {
-
                             Canvas newCanvas = new Canvas(btmBackground);
                             newCanvas.drawBitmap(image, leftImage, topImage, null);
                             invalidate();
                     }
-
                 }
-
                 break;
             case MotionEvent.ACTION_MOVE:
                 if(!toMove)
@@ -208,58 +199,45 @@ public class PaintView extends View {
                 else{
                     float nX = event.getX();
                     float nY = event.getY();
-
                     if(toResize){
-
                         int xScale = 0;
                         int yScale = 0;
-
                         if(nX > refX){
                             xScale = (int) (image.getWidth() + (nX - refX));
                         }else{
                             xScale = (int) (image.getWidth() - (refX - nX));
                         }
-
                         if(nY > refY){
                             yScale = (int) (image.getHeight() + (nY - refY));
                         }else {
                             yScale = (int) (image.getHeight() - (refY - nY));
                         }
-
                         if(xScale > 0 && yScale > 0)
                             image = Bitmap.createScaledBitmap(originalImage,xScale,yScale,false);
                     }else {
-
                         leftImage += nX - refX;
                         topImage += nY - refY;
                     }
-
                     refX = nX;
                     refY = nY;
                     invalidate();
                 }
                 break;
             case MotionEvent.ACTION_UP:
-
                 if(!toMove) {
                     touchUp();
                     addLastAction(getBitmap());
                 }
                 break;
-
         }
-
-
         return true;
     }
 
     private boolean isToResize(float refX, float refY) {
-
         if((refX >= leftImage && refX < leftImage + image.getWidth()
             &&((refY >= topImage && refY <= topImage + 20) || (refY >= topImage + image.getHeight() - 20 && refY <= topImage + image.getHeight())))){
                 return true;
         }
-
         return false;
     }
 
