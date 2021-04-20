@@ -44,12 +44,12 @@
                 android:layout_weight="1">
 
                 <LinearLayout
+                    android:id="@+id/btn"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <ImageButton
-                        android:id="@+id/btn"
+                    <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -64,12 +64,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn2"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <ImageButton
-                        android:id="@+id/btn2"
+                    <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -84,12 +84,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn3"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <ImageButton
-                        android:id="@+id/btn3"
+                    <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -104,12 +104,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn4"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <ImageButton
-                        android:id="@+id/btn4"
+                    <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -124,12 +124,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn5"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <ImageButton
-                        android:id="@+id/btn5"
+                    <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -144,12 +144,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn6"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <ImageButton
-                        android:id="@+id/btn6"
+                    <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -164,12 +164,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn7"
                     android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <ImageButton
-                        android:id="@+id/btn7"
+                    <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
@@ -184,11 +184,12 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/btn8"
+                    android:layout_margin="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
-                    <ImageButton
-                        android:id="@+id/btn8"
+                    <ImageView
                         android:layout_gravity="center_horizontal"
                         android:layout_width="24dp"
                         android:layout_height="24dp"

@@ -22,6 +22,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,14 +62,14 @@ public class OneClickDelete extends AppCompatActivity {
 
     Context context;
     ImageView imageView;
-    ImageButton btn; //拍照按钮
-    ImageButton btn2; //从相册中选择
-    ImageButton btn3; //清除手写内容
-    ImageButton btn4; //清除手写内容
-    ImageButton btn5; //保存内容
-    ImageButton btn6; //手动清除内容
-    ImageButton btn7; //添加文字
-    ImageButton btn8; //导出到pdf
+    LinearLayout btn; //拍照按钮
+    LinearLayout btn2; //从相册中选择
+    LinearLayout btn3; //清除手写内容
+    LinearLayout btn4; //清除手写内容
+    LinearLayout btn5; //保存内容
+    LinearLayout btn6; //手动清除内容
+    LinearLayout btn7; //添加文字
+    LinearLayout btn8; //导出到pdf
 
     Uri uri; //显示拍的图片
     //Uri uri2;
@@ -396,7 +398,8 @@ public class OneClickDelete extends AppCompatActivity {
             case 4:
                 imageView.setImageDrawable(null);
                 imageView.setImageURI(data.getData());
-                System.out.println(data.getData()+"哈哈");
+                Log.e("case 4", data.getData()+"哈哈");
+                //System.out.println(data.getData()+"哈哈");
                 break;
             case 5:
                 if (data != null ){
@@ -428,7 +431,8 @@ public class OneClickDelete extends AppCompatActivity {
         // 开启一个带有返回值的Activity，请求码为4
         Uri cropUri = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
         intent.putExtra(MediaStore.EXTRA_OUTPUT,cropUri);
-        System.out.println(cropUri+"哈哈");
+        Log.e("crop()", cropUri+"哈哈");
+        //System.out.println(cropUri+"哈哈");
         startActivityForResult(intent, 4);
     }
 
