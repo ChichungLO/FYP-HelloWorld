@@ -23,7 +23,12 @@ public class StyleTagImageView extends ImageView {
             R.font.times_new_roman,
             R.font.arial,
             R.font.courier,
-            R.font.helvetica,};
+            R.font.helvetica,
+            R.font.huawenkaiti,
+            R.font.huawenxingkai,
+            R.font.huawenxinwei,
+            R.font.huawensongti,
+            R.font.weiruanyahei,};
 
     public OnStyleTagChanges getListener() {
         return listener;
@@ -54,7 +59,7 @@ public class StyleTagImageView extends ImageView {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        mEachItemHeight = getWidth() / 5;
+        mEachItemHeight = getWidth() / 10;
         if (event.getX() >= 0 && event.getX() <= getWidth()) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
