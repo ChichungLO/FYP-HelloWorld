@@ -130,8 +130,10 @@ public class OneClickDelete extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK,null);
+                Intent intent = new Intent(Intent.ACTION_PICK,uri2);
+                intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,uri2);
                 startActivityForResult(intent,2);
             }
         });
@@ -463,8 +465,8 @@ public class OneClickDelete extends AppCompatActivity {
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
         intent.putExtra("return-data", false);
         // 开启一个带有返回值的Activity，请求码为4
-        uri = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+        uri2 = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri2);
         //System.out.println(cropUri+"哈哈");
         startActivityForResult(intent, 6);
     }
