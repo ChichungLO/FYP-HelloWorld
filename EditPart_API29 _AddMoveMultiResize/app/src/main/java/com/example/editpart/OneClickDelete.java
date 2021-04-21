@@ -382,7 +382,7 @@ public class OneClickDelete extends AppCompatActivity {
                 if (data != null) {
                     // 得到图片的全路径
                     uri2 = data.getData();
-                    crop(uri2);
+                    crop2(uri2);
                     //imageView.setImageURI(uri);
                 }
                 break;
