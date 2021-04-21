@@ -71,8 +71,8 @@ public class OneClickDelete extends AppCompatActivity {
     LinearLayout btn7; //添加文字
     LinearLayout btn8; //导出到pdf
 
-    Uri uri; //显示拍的图片
-    //Uri uri2;
+    Uri uri; //拍照图片的uri
+    Uri uri2;//相册选择的图片的uri
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -381,8 +381,8 @@ public class OneClickDelete extends AppCompatActivity {
             case 2:
                 if (data != null) {
                     // 得到图片的全路径
-                    Uri uri = data.getData();
-                    crop(uri);
+                    uri2 = data.getData();
+                    crop(uri2);
                     //imageView.setImageURI(uri);
                 }
                 break;
@@ -395,9 +395,10 @@ public class OneClickDelete extends AppCompatActivity {
                     }
                 }
                 break;
+                //拍照裁剪后显示图片
             case 4:
                 imageView.setImageDrawable(null);
-                imageView.setImageURI(data.getData());
+                imageView.setImageURI(uri);
                 Log.e("case 4", data.getData()+"哈哈");
                 //System.out.println(data.getData()+"哈哈");
                 break;
@@ -409,6 +410,14 @@ public class OneClickDelete extends AppCompatActivity {
                     imagePath = getPAth(uri);
                     //imageView.setImageURI(uri);
                 }
+                break;
+                //从相册选取图片后显示图片
+            case 6:
+                imageView.setImageDrawable(null);
+                imageView.setImageURI(uri2);
+                Log.e("case 6", data.getData()+"哈哈");
+                //System.out.println(data.getData()+"哈哈");
+                break;
         }
     }
     private void crop(Uri uri) {
@@ -420,20 +429,44 @@ public class OneClickDelete extends AppCompatActivity {
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
         // 裁剪框的比例，1：1
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
+        //intent.putExtra("aspectX", 1);
+        //intent.putExtra("aspectY", 1);
         // 裁剪后输出图片的尺寸大小
         intent.putExtra("outputX", 300);
         intent.putExtra("outputY", 300);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
-        intent.putExtra("return-data", true);
+        intent.putExtra("return-data", false);
         // 开启一个带有返回值的Activity，请求码为4
-        Uri cropUri = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,cropUri);
-        Log.e("crop()", cropUri+"哈哈");
+        uri = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+        //Log.e("crop()", cropUri+"哈哈");
         //System.out.println(cropUri+"哈哈");
         startActivityForResult(intent, 4);
+    }
+
+    private void crop2(Uri uri) {
+        // 裁剪图片意图
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        intent.putExtra("scale", true);
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        // 裁剪框的比例，1：1
+        //intent.putExtra("aspectX", 1);
+        //intent.putExtra("aspectY", 1);
+        // 裁剪后输出图片的尺寸大小
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
+        intent.putExtra("noFaceDetection", true);// 取消人脸识别
+        intent.putExtra("return-data", false);
+        // 开启一个带有返回值的Activity，请求码为4
+        uri = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
+        //System.out.println(cropUri+"哈哈");
+        startActivityForResult(intent, 6);
     }
 
     public Bitmap clearBlue(Bitmap oldBitmap,int newColor) {
