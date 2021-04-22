@@ -59,7 +59,6 @@ public class OneClickDelete extends AppCompatActivity {
     String fileName;
     String mFilePath;
     String imagePath;
-
     Context context;
     ImageView imageView;
     LinearLayout btn; //拍照按钮
@@ -70,13 +69,11 @@ public class OneClickDelete extends AppCompatActivity {
     LinearLayout btn6; //手动清除内容
     LinearLayout btn7; //添加文字
     LinearLayout btn8; //导出到pdf
-
     Uri uri; //拍照图片的uri
     Uri uri2;//相册选择的图片的uri
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_one_click_delete);
         requestWritePermission();
         context = OneClickDelete.this;
@@ -90,13 +87,12 @@ public class OneClickDelete extends AppCompatActivity {
         btn6 = findViewById(R.id.btn6);
         btn7 = findViewById(R.id.btn7);
         btn8 = findViewById(R.id.btn8);
-
         //点击拍照
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //创建一个文件存放SD卡的应用关联缓存目录
-                File file = new File(getExternalCacheDir(), "test.jpg");
+                File file = new File(getExternalCacheDir(), "test.png");
                 try {
                     if (file.exists()) {
                         file.delete();
@@ -125,7 +121,6 @@ public class OneClickDelete extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-
         //从相册中选择图片
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,7 +215,7 @@ public class OneClickDelete extends AppCompatActivity {
         if(!fileDir.exists()){
             fileDir.mkdir();
         }
-        fileName = "IMG_" + System.currentTimeMillis() + ".jpg";
+        fileName = "IMG_" + System.currentTimeMillis() + ".png";
         mFilePath = fileDir.getAbsolutePath() + "/" + fileName;
         Uri fileUri = null;
         ContentValues contentValues = new ContentValues();
@@ -434,13 +429,13 @@ public class OneClickDelete extends AppCompatActivity {
         //intent.putExtra("aspectX", 1);
         //intent.putExtra("aspectY", 1);
         // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
+        intent.putExtra("outputX", 800);
+        intent.putExtra("outputY", 800);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());// 图片格式
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
         intent.putExtra("return-data", false);
         // 开启一个带有返回值的Activity，请求码为4
-        uri = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
+        uri = Uri.fromFile(new File(getExternalCacheDir(), "test.png"));
         intent.putExtra(MediaStore.EXTRA_OUTPUT,uri);
         //Log.e("crop()", cropUri+"哈哈");
         //System.out.println(cropUri+"哈哈");
@@ -459,13 +454,13 @@ public class OneClickDelete extends AppCompatActivity {
         //intent.putExtra("aspectX", 1);
         //intent.putExtra("aspectY", 1);
         // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
+        intent.putExtra("outputX", 800);
+        intent.putExtra("outputY", 800);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());// 图片格式
         intent.putExtra("noFaceDetection", true);// 取消人脸识别
         intent.putExtra("return-data", false);
         // 开启一个带有返回值的Activity，请求码为4
-        uri2 = Uri.fromFile(new File(getExternalCacheDir(), "test.jpg"));
+        uri2 = Uri.fromFile(new File(getExternalCacheDir(), "test.png"));
         intent.putExtra(MediaStore.EXTRA_OUTPUT,uri2);
         //System.out.println(cropUri+"哈哈");
         startActivityForResult(intent, 6);
