@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -136,24 +137,41 @@ public class OneClickDelete extends AppCompatActivity {
         btn3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
-                //imageView.setImageBitmap(bm);
-                Bitmap newBitmap = clearBlue(bm, Color.argb(255,255,255,255));
-                imageView.setImageDrawable(null);
-                imageView.setImageBitmap(newBitmap);
-                Toast.makeText(getApplicationContext(),R.string.ClearSuccess,Toast.LENGTH_SHORT).show();
+                if ((BitmapDrawable)((ImageView) imageView).getDrawable() != null) {
+                    Bitmap bm = ((BitmapDrawable) ((ImageView) imageView).getDrawable()).getBitmap();
+                    //imageView.setImageBitmap(bm);
+                    Bitmap newBitmap = clearBlue(bm, Color.argb(255, 255, 255, 255));
+                    imageView.setImageDrawable(null);
+                    imageView.setImageBitmap(newBitmap);
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.ClearSuccess, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,-100);
+                    toast.show();
+                }else {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.NoImage, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,-100);
+                    toast.show();
+                    //Toast.makeText(getApplicationContext(), R.string.NoImage, Toast.LENGTH_SHORT).show();
+                }
             }
         });
         //清除红色
         btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
-                //imageView.setImageBitmap(bm);
-                Bitmap newBitmap = clearRed(bm, Color.argb(255,255,255,255));
-                imageView.setImageDrawable(null);
-                imageView.setImageBitmap(newBitmap);
-                Toast.makeText(getApplicationContext(),R.string.ClearSuccess,Toast.LENGTH_SHORT).show();
+                if ((BitmapDrawable)((ImageView) imageView).getDrawable() != null) {
+                    Bitmap bm = ((BitmapDrawable) ((ImageView) imageView).getDrawable()).getBitmap();
+                    //imageView.setImageBitmap(bm);
+                    Bitmap newBitmap = clearRed(bm, Color.argb(255, 255, 255, 255));
+                    imageView.setImageDrawable(null);
+                    imageView.setImageBitmap(newBitmap);
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.ClearSuccess, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,-100);
+                    toast.show();
+                }else {
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.NoImage, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,-100);
+                    toast.show();
+                }
             }
         });
         //保存并清空图片
@@ -169,7 +187,9 @@ public class OneClickDelete extends AppCompatActivity {
             public void onClick(View v) {
                 //Log.e("imageView==null?",(imageView==null)+"");
                 if((BitmapDrawable)((ImageView) imageView).getDrawable() == null){
-                    Toast.makeText(OneClickDelete.this, "No Photo!", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.NoImage, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,-100);
+                    toast.show();
                 } else {
                     Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
                     Intent i = new Intent(OneClickDelete.this, RemovedManually.class);
@@ -186,7 +206,9 @@ public class OneClickDelete extends AppCompatActivity {
             public void onClick(View v) {
                 //Log.e("imageView==null?",(imageView==null)+"");
                 if((BitmapDrawable)((ImageView) imageView).getDrawable() == null){
-                    Toast.makeText(OneClickDelete.this, "No Photo!", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.NoImage, Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER,0,-100);
+                    toast.show();
                 } else {
                     Bitmap bm = ((BitmapDrawable)((ImageView) imageView).getDrawable()).getBitmap();
                     Intent i = new Intent(OneClickDelete.this, ModifyContent.class);
@@ -231,7 +253,9 @@ public class OneClickDelete extends AppCompatActivity {
             outputStream.close();
             imageView.getContext().sendBroadcast(new Intent("com.android.camera.NEW_PICTURE",fileUri));
             imageView.setImageDrawable(null);
-            Toast.makeText(getApplicationContext(),R.string.SaveSuccess,Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(getApplicationContext(), R.string.SaveSuccess, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER,0,-100);
+            toast.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -309,54 +333,54 @@ public class OneClickDelete extends AppCompatActivity {
         return new int[]{maxR*16,maxG*16,maxB*16};
     }
 
-    private void handleImage(Intent data) {
-        String imagePath = null;
-        Uri uri2 = data.getData();
-        if (DocumentsContract.isDocumentUri(this, uri2)) {
-            String docID = DocumentsContract.getDocumentId(uri2);
-            if ("com.android.providers.media.documents".equals(uri2.getAuthority())) {
-                String id = docID.split(":")[1];
-                String selection = MediaStore.Images.Media._ID + "=" + id;
-                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
-            } else if ("com.android.providers.downloads.documents".equals(uri2.getAuthority())) {
-                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docID));
-                imagePath = getImagePath(contentUri, null);
-            }
-        } else if ("content".equalsIgnoreCase(uri2.getScheme())) {
-            imagePath = getImagePath(uri2, null);
-        } else if ("file".equalsIgnoreCase(uri2.getScheme())) {
-            imagePath = uri2.getPath();
-        }
-        displayImage(imagePath);
-    }
+//    private void handleImage(Intent data) {
+//        String imagePath = null;
+//        Uri uri2 = data.getData();
+//        if (DocumentsContract.isDocumentUri(this, uri2)) {
+//            String docID = DocumentsContract.getDocumentId(uri2);
+//            if ("com.android.providers.media.documents".equals(uri2.getAuthority())) {
+//                String id = docID.split(":")[1];
+//                String selection = MediaStore.Images.Media._ID + "=" + id;
+//                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+//            } else if ("com.android.providers.downloads.documents".equals(uri2.getAuthority())) {
+//                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docID));
+//                imagePath = getImagePath(contentUri, null);
+//            }
+//        } else if ("content".equalsIgnoreCase(uri2.getScheme())) {
+//            imagePath = getImagePath(uri2, null);
+//        } else if ("file".equalsIgnoreCase(uri2.getScheme())) {
+//            imagePath = uri2.getPath();
+//        }
+//        displayImage(imagePath);
+//    }
+//
+//    private void handleImageBefore(Intent data) {
+//        Uri uri = data.getData();
+//        String imagePath = getImagePath(uri, null);
+//        displayImage(imagePath);
+//    }
 
-    private void handleImageBefore(Intent data) {
-        Uri uri = data.getData();
-        String imagePath = getImagePath(uri, null);
-        displayImage(imagePath);
-    }
+//    private String getImagePath(Uri uri, String selection) {
+//        String path = null;
+//        Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
+//        if (cursor != null) {
+//            if (cursor.moveToFirst()) {
+//                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+//            }
+//            cursor.close();
+//        }
+//        return path;
+//    }
 
-    private String getImagePath(Uri uri, String selection) {
-        String path = null;
-        Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            }
-            cursor.close();
-        }
-        return path;
-    }
-
-    private void displayImage(String path) {
-        if (path != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(path);
-            imageView.setImageBitmap(bitmap);
-        } else {
-            Toast.makeText(context, "failed to get image", Toast.LENGTH_SHORT).show();
-        }
-
-    }
+//    private void displayImage(String path) {
+//        if (path != null) {
+//            Bitmap bitmap = BitmapFactory.decodeFile(path);
+//            imageView.setImageBitmap(bitmap);
+//        } else {
+//            Toast.makeText(context, "failed to get image", Toast.LENGTH_SHORT).show();
+//        }
+//
+//    }
 
 
     /**
@@ -383,15 +407,15 @@ public class OneClickDelete extends AppCompatActivity {
                     //imageView.setImageURI(uri);
                 }
                 break;
-            case 3:
-                if (resultCode == RESULT_OK) {
-                    if (Build.VERSION.SDK_INT >= 19) {
-                        handleImage(data);
-                    } else {
-                        handleImageBefore(data);
-                    }
-                }
-                break;
+//            case 3:
+//                if (resultCode == RESULT_OK) {
+//                    if (Build.VERSION.SDK_INT >= 19) {
+//                        handleImage(data);
+//                    } else {
+//                        handleImageBefore(data);
+//                    }
+//                }
+//                break;
                 //拍照裁剪后显示图片
             case 4:
                 imageView.setImageDrawable(null);
@@ -522,7 +546,6 @@ public class OneClickDelete extends AppCompatActivity {
     private void exportPDF (ArrayList<String> imagesAddress)  {
         //PDF导出后的存放路径，根据Android Q 分区储存特性，将储存在该App的私有目录下
         String pdfPath = getExternalFilesDir(null) +"/" + generatePdfName();
-        System.out.println(pdfPath+"哈哈");
         Document pdf = new Document(PageSize.A4);
         try {
             PdfWriter.getInstance(pdf,new FileOutputStream(pdfPath));
@@ -533,7 +556,7 @@ public class OneClickDelete extends AppCompatActivity {
                 com.itextpdf.text.Image image = com.itextpdf.text.Image.getInstance(imagesAddress.get(i));
                 float height  = image.getHeight();
                 float width = image.getWidth();
-                int percent = getPercent2(height, width);
+                int percent = getPercent(height, width);
                 image.setAlignment(Image.MIDDLE);
                 image.scalePercent(percent);
                 image.scaleToFit(PageSize.A4.getWidth(), PageSize.A4.getHeight());
@@ -547,8 +570,9 @@ public class OneClickDelete extends AppCompatActivity {
             e.printStackTrace();
         }finally {
             pdf.close();
-            Toast.makeText(this,"PDF is saved in:\n" + pdfPath,
-                    Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(this,R.string.PDFSave, Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER,0,-100);
+            toast.show();
         }
     }
     //根据时间生成PDF文件名以达到唯一性
@@ -558,9 +582,9 @@ public class OneClickDelete extends AppCompatActivity {
         return "iText_"+pdfFileName+".pdf";
     }
     /**
-     * 第二种图片裁剪解决方案：统一按照宽度压缩 这样来的效果是，所有图片的宽度是相等，测试显示效果较好。
+     * 图片裁剪解决方案：统一按照宽度压缩 所有图片的宽度是相等
      */
-    private int getPercent2(float h, float w){
+    private int getPercent(float h, float w){
         int p = 0; float p2 = 0.0f;
         p2 = 530 / w * 100;
         p = Math.round(p2);

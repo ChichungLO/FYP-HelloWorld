@@ -36,5 +36,7 @@
     <string name="ok">OK</string>
     <string name="removed_manually">Removed Manually</string>
     <string name="modify_content">Modify Content</string>
+    <string name="NoImage">No image</string>
+    <string name="PDFSave">PDF is saved.</string>
 
 </resources>

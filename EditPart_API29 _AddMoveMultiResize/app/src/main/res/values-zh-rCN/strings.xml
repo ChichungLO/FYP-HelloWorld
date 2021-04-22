@@ -36,6 +36,7 @@
     <string name="ok">确认</string>
     <string name="removed_manually">手动清除</string>
     <string name="modify_content">内容修改</string>
-
+    <string name="NoImage">没有图片</string>
+    <string name="PDFSave">PDF已存储</string>
 
 </resources>
